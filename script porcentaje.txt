@@ -1,0 +1,38 @@
+
+
+
+-- Script para aumentar un tanto por ciento a un solo lote
+
+set @porcentaje = 5;
+update lotes 
+set preciolista = (preciom2*superficie) + ((@porcentaje*(preciom2*superficie))/100)
+where id_lote = 1;
+
+
+
+-- Script para aumentar un tanto por ciento a todos los lotes
+
+set @porcentaje = 5;
+update lotes 
+set preciolista = (preciom2*superficie) + ((@porcentaje*(preciom2*superficie))/100)
+
+--------------------------
+
+set @porcentaje = 0;
+update lotes 
+set preciolista = (preciom2*superficie) + ((@porcentaje*(preciom2*superficie))/100)
+where id_lote in 
+(
+    SELECT lo.id_lote
+    FROM loteos l INNER JOIN lotes lo
+    ON l.loteo = lo.loteo AND l.id_loteo = 1
+)
+
+---------------------------
+-- incrementar preciom2 --
+---------------------------
+
+set @porcentaje = 2;
+update lotes set preciom2 = preciom2 + ((preciom2*@porcentaje)/100) where id_lote = 26;
+update lotes set preciolista = preciom2*superficie where id_lote = 26;
+
